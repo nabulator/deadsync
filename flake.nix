@@ -21,16 +21,18 @@
       let
         pkgs = nixpkgs.legacyPackages.${system};
         craneLib = crane.mkLib pkgs;
+
       in
       {
         packages = rec {
           deadsync = craneLib.buildPackage rec {
             src = ./.;
             strictDeps = true;
-
             nativeBuildInputs = with pkgs; [
               pkg-config
               makeWrapper
+              cmake
+              rustPlatform.bindgenHook
             ];
             buildInputs = with pkgs; [
               alsa-lib
@@ -38,12 +40,13 @@
               libxcursor
               libxi
               libxkbcommon
+              pipewire
               shaderc # NB: this should be in nativeBuildInputs, but otherwise shaderc-sys builds its own copy of shaderc
               udev
               vulkan-loader
               wayland
-              xorg.libX11
-              xorg.libxcb
+              libX11
+              libxcb
             ];
 
             doCheck = false;
