@@ -31,8 +31,8 @@
             nativeBuildInputs = with pkgs; [
               pkg-config
               makeWrapper
-              cmake
-              rustPlatform.bindgenHook
+              cmake # required for libopus
+              rustPlatform.bindgenHook # for pipewire
             ];
             buildInputs = with pkgs; [
               alsa-lib
@@ -40,7 +40,7 @@
               libxcursor
               libxi
               libxkbcommon
-              pipewire
+              pipewire # optional for pipewire
               shaderc # NB: this should be in nativeBuildInputs, but otherwise shaderc-sys builds its own copy of shaderc
               udev
               vulkan-loader
